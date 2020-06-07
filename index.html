@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>画板</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-    <div id="canvas"></div>
+    <canvas id="canvas" width="100" height="100"></canvas>
     <script>
-        canvas.onclick = (e) => {     //监听canvas的onclick事件
-            //console.log(e)             //e是个什么玩意
-            console.log(e.clientX)
-            console.log(e.clientY)      //获取鼠标点击位置
-            // console.log 调试大法
-            let div = document.createElement('div')   //点击创建一个新的div  document文件，create创建，element元素
-            div.style.position = 'absolute'
-            div.style.left = e.clientX + 'px'
-            div.style.top = e.clientY + 'px'
-            // div.style.border = '1px solid red'
-            div.style.width = '6px'
-            div.style.height = '6px'     // 鼠标点击哪里出现一个小方形，但是鼠标箭头在方形的左上角
-            div.style.marginLeft = '-3px'
-            div.style.marginTop = '-3px'   //箭头出现在方形正中间
-            div.style.borderRadius = '50%'  //把小方形变成小圆形
-            div.style.backgroundColor = 'black'   //小圆形是实心了，然后去掉红边框
-            canvas.appendChild(div)  //把创建在内存中的div放到页面上
-            
+
+        var canvas = document.getElementById("canvas");
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        // 画线
+        var ctx = canvas.getContext("2d");
+
+        let painting = false
+
+        ctx.fillStyle = "black";
+        ctx.strokeStyle = 'none';
+
+
+
+        canvas.onmousedown = () => {
+            painting = true
         }
+
+
+        canvas.onmousemove = (e) => {
+            // console.log(e.clientX)
+            // console.log(e.clientY)
+            if (painting === true) {
+                ctx.beginPath();
+                ctx.arc(e.clientX,e.clientY, 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fill();
+
+            } else {
+                console.log('什么都不做')
+            }
+
+        }
+
+        canvas.onmouseup = (e) => {
+            painting = false
+        }
+
+
     </script>
 </body>
+
 </html>
